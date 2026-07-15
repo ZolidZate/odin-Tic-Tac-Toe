@@ -9,5 +9,40 @@
 </head>
 <body>
     
+    <div class="header">
+        <span class="header-left" id="title">Tic-Tac-Toe</span>
+        <img src="images/tic-tac-toe.svg" class="header-left" alt="Tic tac toe board" width="500" height="150" style="object-fit: contain;">
+        <div class="header-right">
+
+            <div class="scoreboard">
+                <div class="score-card">Player X: <span id="score-x">0</span></div>
+                <div class="score-card">Player O: <span id="score-o">0</span></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="game-container">
+        <div id="game-status"></div>
+
+        <div class="game-box">
+            <div class="box" id="box-0"></div>
+            <div class="box" id="box-1"></div>
+            <div class="box" id="box-2"></div>
+            <div class="box" id="box-3"></div>
+            <div class="box" id="box-4"></div>
+            <div class="box" id="box-5"></div>
+            <div class="box" id="box-6"></div>
+            <div class="box" id="box-7"></div>
+            <div class="box" id="box-8"></div>
+        </div>
+
+        <div class="controls">
+            <button id="reset-btn">Reset Game</button>
+            <button id="reset-all-btn">Reset Scores</button>
+        </div>
+
+    </div>
+
 </body>
 </html>

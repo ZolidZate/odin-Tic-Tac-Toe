@@ -2,4 +2,140 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Fredoka', sans-serif;
+}
+
+@import url('https://googleapis.com');
+
+.header {
+  display: flex;
+  /* display: grid;
+  grid-template-columns: 2fr 1fr; */
+  align-items: center;
+  justify-content: right;
+  padding: 40px;
+  background-color: #98A6D4;
+  height: 20vh;
+  border-color: black;
+}
+
+.header-left {
+  justify-self: flex-end;
+  max-height: 100%;
+  width: auto;
+  padding-right: 200px;
+}
+
+.header-right {
+  justify-self: end;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #44344F;
+  height: 80vh;
+  padding: 80px;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 500px;
+  height: 500px;
+  background-color: #C2F970;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 8rem;
+  background-color: #D3FCD5;
+  border-radius: 5px;
+}
+
+#game-status {
+  font-size: 32px;
+  color: #D3FCD5;
+  padding-bottom: 50px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+#reset-btn, #reset-all-btn {
+  background-color: #C2F970;
+  color: #44344F;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+#reset-btn:hover {
+  background-color: #b1e662;
+}
+
+#reset-btn:active {
+  transform: scale(0.95);
+}
+
+#reset-all-btn {
+  background-color: #44344F;
+  color: #D3FCD5;
+  border: 2px solid #D3FCD5;
+}
+
+#reset-all-btn:hover {
+  background-color: #554163;
+}
+
+#reset-btn:active, #reset-all-btn:active {
+  transform: scale(0.95);
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 15px 0;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #D3FCD5; 
+}
+
+.score-card {
+  background-color: #44344F; 
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 2px solid #C2F970; 
+}
+
+.score-card span {
+  color: #C2F970; 
+  margin-left: 5px;
+}
+
+#title {
+  font-size: 48px;
+  font-family: 'Fredoka', sans-serif;
+  color: #564D80;
 }

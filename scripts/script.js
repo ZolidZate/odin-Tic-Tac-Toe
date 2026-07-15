@@ -1,27 +1,27 @@
-/*
-Tasks:
-    - Draw game board.
-    - Create Players.
-    - Update game board.
-    - Check for winner.
-    - End of game message.
-    - Run through game.
-
-Objects:
-    * Gameboard
-    * Players
-    * Game
-
-*/
-
 // DOM Elements
+const boxes = document.querySelectorAll('.box');
+const resetBtn = document.getElementById('reset-btn');
+const statusText = document.getElementById('game-status');
+const scoreXDisplay = document.getElementById('score-x');
+const scoreODisplay = document.getElementById('score-o');
+const resetAllBtn = document.getElementById('reset-all-btn');
 
-// Objects
+// Functions
 const gameController = (function() {
     const playerX = "X";
     const playerO = "O";
     let activePlayer = playerX;
     let isGameOver = false;
+    let scoreX = 0;
+    let scoreO = 0;
+
+    function resetScores() {
+        scoreX = 0;
+        scoreO = 0;
+        scoreXDisplay.textContent = scoreX;
+        scoreODisplay.textContent = scoreO;
+        statusText.textContent = "Scores have been wiped clean.";
+    }
 
     function checkWin(board) {
         for (let i = 0; i < 3; i++){
@@ -41,13 +41,19 @@ const gameController = (function() {
 
     function switchTurn () {
         activePlayer = activePlayer === playerX ? playerO : playerX;
-        console.log(`It is now ${activePlayer}'s turn.`);
+        statusText.textContent = `It is now ${activePlayer}'s turn.`;
+    }
+
+    function getActivePlayer() {
+        return activePlayer;
     }
 
     return {
+        getActivePlayer: getActivePlayer,
+
         playTurn: function(row, col) {
             if (isGameOver) {
-                console.log("Game over.");
+                statusText.textContent = "Game over.";
                 return;
             }
 
@@ -57,19 +63,29 @@ const gameController = (function() {
                 const currentBoard = gameBoard.getGrid();
 
                 if (checkWin(currentBoard)) {
-                    console.log(`🥳🥳🥳 Player ${activePlayer} wins!!!`);
+                    statusText.textContent = `🥳🥳🥳 Player ${activePlayer} wins!!!`;
                     isGameOver = true;
+
+                    if(activePlayer === playerX) {
+                        scoreX++;
+                        scoreXDisplay.textContent = scoreX;
+                    }
+
+                    if(activePlayer === playerO) {
+                        scoreO++;
+                        scoreODisplay.textContent = scoreO;
+                    }
                     return;
                 }
 
                 if (checkTie(currentBoard)) {
-                    console.log("It's a tie.");
+                    statusText.textContent = "It's a tie.";
                     isGameOver = true;
                     return;
                 }
 
                 activePlayer = activePlayer === playerX ? playerO : playerX;
-                console.log(`It's now ${activePlayer}'s turn.`);
+                statusText.textContent = `It's now ${activePlayer}'s turn.`;
             }
         },
 
@@ -77,8 +93,13 @@ const gameController = (function() {
         activePlayer = playerX;
         isGameOver = false;
         gameBoard.resetBoard();
-        console.log("Game reset. Player X turn.");
-    }
+        statusText.textContent = "Game reset. Player X turn.";
+    },
+
+    resetAllGameData: function() {
+            this.restartGame(); 
+            resetScores();      
+        }
 };
 })();
 
@@ -133,6 +154,32 @@ const gameBoard = (function () {
     };
 })();
 
-// Functions 
-
 // Event Handlers 
+boxes.forEach((box, index) => {
+    box.addEventListener('click',() => {
+        const row = Math.floor(index / 3);
+        const col = index % 3;
+
+        const currrentLetter = gameController.getActivePlayer();
+        gameController.playTurn(row, col);
+
+        const updatedGrid = gameBoard.getGrid();
+        box.textContent = updatedGrid[row][col];
+    });
+});
+
+resetBtn.addEventListener('click', () => {
+    gameController.restartGame();
+
+    boxes.forEach(box => {
+        box.textContent = '';
+    });
+});
+
+resetAllBtn.addEventListener('click', () => {
+    gameController.resetAllGameData();
+
+    boxes.forEach(box => {
+        box.textContent = '';
+    });
+});
