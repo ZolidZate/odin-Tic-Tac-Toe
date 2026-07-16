@@ -139,3 +139,35 @@
   font-family: 'Fredoka', sans-serif;
   color: #564D80;
 }
+
+#change-names-btn {
+  background-color: #44344F;
+  color: #C2F970;
+  border: 2px solid #C2F970;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#change-names-btn:hover {
+  background-color: #554163;
+}
+
+#reset-names-btn {
+  background-color: #44344F;
+  color: #C2F970;
+  border: 2px solid #C2F970;
+  font-family: 'Fredoka',sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#reset-names-btn:hover {
+  background-color: #554163;
+}

@@ -5,15 +5,26 @@ const statusText = document.getElementById('game-status');
 const scoreXDisplay = document.getElementById('score-x');
 const scoreODisplay = document.getElementById('score-o');
 const resetAllBtn = document.getElementById('reset-all-btn');
+const nameXDisplay = document.getElementById('player1');
+const nameODisplay = document.getElementById('player2');
+const changeNamesBtn = document.getElementById('change-names-btn');
+const resetNamesBtn = document.getElementById('reset-names-btn');
 
 // Functions
 const gameController = (function() {
-    const playerX = "X";
-    const playerO = "O";
-    let activePlayer = playerX;
+    let playerX = "Player X";
+    let playerO = "Player O";
+    const tokenX = "X";
+    const tokenO = "O";
+    let activePlayerToken = tokenX;
     let isGameOver = false;
     let scoreX = 0;
     let scoreO = 0;
+    
+
+    function getActivePlayerName() {
+        return activePlayerToken === tokenX ? playerX : playerO;
+    }
 
     function resetScores() {
         scoreX = 0;
@@ -39,17 +50,34 @@ const gameController = (function() {
         return board.every(row => row.every(cell => cell !== ""));
     }
 
-    function switchTurn () {
-        activePlayer = activePlayer === playerX ? playerO : playerX;
-        statusText.textContent = `It is now ${activePlayer}'s turn.`;
-    }
-
-    function getActivePlayer() {
-        return activePlayer;
-    }
-
     return {
-        getActivePlayer: getActivePlayer,
+        getActivePlayer: function() {
+            return activePlayerToken === tokenX ? tokenX : tokenO;
+        },
+
+        resetPlayerNames: function() {
+            playerX = "Player X";
+            playerO = "Player O";
+            
+            nameXDisplay.textContent = playerX;
+            nameODisplay.textContent = playerO;
+
+            if (!isGameOver) {
+                statusText.textContent = `${getActivePlayerName()}'s Turn`;
+            }
+        },
+
+        setPlayerNames: function(newNameX, newNameO) {
+            if (newNameX) playerX = newNameX.trim() || "Player X";
+            if (newNameO) playerO = newNameO.trim() || "Player O";
+
+            nameXDisplay.textContent = playerX;
+            nameODisplay.textContent = playerO;
+
+            if (!isGameOver) {
+                statusText.textContent = `${getActivePlayerName()}'s Turn`;
+            }
+        },
 
         playTurn: function(row, col) {
             if (isGameOver) {
@@ -57,21 +85,22 @@ const gameController = (function() {
                 return;
             }
 
-            const moveSuccessful = gameBoard.makeMove(row,col,activePlayer);
+            const currentToken = activePlayerToken === tokenX ? tokenX : tokenO;
+            const moveSuccessful = gameBoard.makeMove(row,col,currentToken);
 
             if (moveSuccessful){
                 const currentBoard = gameBoard.getGrid();
 
                 if (checkWin(currentBoard)) {
-                    statusText.textContent = `🥳🥳🥳 Player ${activePlayer} wins!!!`;
+                    statusText.textContent = `🥳🥳🥳 Player ${getActivePlayerName()} wins!!!`;
                     isGameOver = true;
 
-                    if(activePlayer === playerX) {
+                    if(activePlayerToken === tokenX) {
                         scoreX++;
                         scoreXDisplay.textContent = scoreX;
                     }
 
-                    if(activePlayer === playerO) {
+                    else {
                         scoreO++;
                         scoreODisplay.textContent = scoreO;
                     }
@@ -84,21 +113,24 @@ const gameController = (function() {
                     return;
                 }
 
-                activePlayer = activePlayer === playerX ? playerO : playerX;
-                statusText.textContent = `It's now ${activePlayer}'s turn.`;
+                activePlayerToken = activePlayerToken === tokenX ? tokenO : tokenX;
+                statusText.textContent = `It's now ${getActivePlayerName()}'s turn.`;
             }
         },
 
     restartGame: function () {
-        activePlayer = playerX;
+        activePlayerToken = tokenX;
         isGameOver = false;
         gameBoard.resetBoard();
-        statusText.textContent = "Game reset. Player X turn.";
+        statusText.textContent = `${playerX}'s Turn`;
     },
 
     resetAllGameData: function() {
             this.restartGame(); 
-            resetScores();      
+            scoreX = 0;
+            scoreO = 0;
+            scoreXDisplay.textContent = scoreX;
+            scoreODisplay.textContent = scoreO;    
         }
 };
 })();
@@ -182,4 +214,15 @@ resetAllBtn.addEventListener('click', () => {
     boxes.forEach(box => {
         box.textContent = '';
     });
+});
+
+changeNamesBtn.addEventListener('click', () => {
+    const inputX = prompt("Enter name for Player X:", nameXDisplay.textContent);
+    const inputO = prompt("Enter name for Player O:", nameODisplay.textContent);
+
+    gameController.setPlayerNames(inputX, inputO);
+});
+
+resetNamesBtn.addEventListener('click', () => {
+    gameController.resetPlayerNames();
 });
